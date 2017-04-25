@@ -1,11 +1,18 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 
-from rest_framework import status, views
+from rest_framework import status, views, permissions, generics
 from rest_framework.response import Response
 
 from .serializers import UserSerializer
+
+class RegistrationView(generics.CreateAPIView):
+	model = get_user_model()
+	permission_classes = [
+		permissions.AllowAny
+	]
+	serializer_class = UserSerializer
 
 class LoginView(views.APIView):
 
